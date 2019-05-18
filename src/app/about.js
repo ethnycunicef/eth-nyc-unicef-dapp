@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 var createReactClass = require('create-react-class');
 var ReactDOM = require('react-dom');
+import postData from './data.json';
 
 // Design
 import { Button, Layout, Menu, Breadcrumb, List, Avatar} from 'antd';
@@ -22,40 +23,47 @@ const myContractInstance = mycontract.at(contractAddress);
 function parseJson(Resp){
   console.log(Resp);
   const results = [];
-  var parameters = ['task','location','incent','owner','status'];//web3.toAscii(res)
-  Object.keys(Resp).forEach((paramValues, paramIndex) => {
-    const paramName = parameters[paramIndex];
-    var counter = 0;
-    Resp[paramValues].forEach((paramValue, itemIndex) =>{
-      const item = _.merge({}, _.get(results, [itemIndex], {}));
-      if (paramIndex == 0){
-        item[paramName] = paramValue;
-      }
-      else if(paramIndex == 1){
-        item[paramName] = paramValue;
-      }
+  const value = [];
+  // var parameters = ['task','location','incent','owner','status'];//web3.toAscii(res)
+  Resp.forEach((paramValues, paramIndex) => {
+    results[paramIndex] = paramValues[0];
+    // const paramName = parameters[paramIndex];
+    // var values;
+    // const item = _.merge({}, _.get(results, [paramIndex], {}));
 
-      else if(paramIndex == 2){
-        item[paramName] = paramValue.c[0];
-      }
+    // Resp[paramValues].forEach((paramValue, itemIndex) =>{
+      
+      // if (paramIndex == 0){
+    // item[paramIndex] = paramValues[0];
+      // }
+      // else if(paramIndex == 1){
+      //   item[paramName] = paramValue;
+      // }
 
-      else if(paramIndex == 3){
-        item[paramName] = paramValue;
-      }
+      // else if(paramIndex == 2){
+      //   item[paramName] = paramValue.c[0];
+      // }
 
-      else if(paramIndex == 4){
-        counter += 1;
-        if (paramValue.c[0] == 0){item[paramName] = "open"+ counter.toString();}
-        if (paramValue.c[0] == 1){item[paramName] = "in progress"+ counter.toString();}
-        if (paramValue.c[0] == 2){item[paramName] = "closed"+ counter.toString();}
-      }
+      // else if(paramIndex == 3){
+      //   item[paramName] = paramValue;
+      // }
+
+      // else if(paramIndex == 4){
+      //   counter += 1;
+      //   if (paramValue.c[0] == 0){item[paramName] = "open"+ counter.toString();}
+      //   if (paramValue.c[0] == 1){item[paramName] = "in progress"+ counter.toString();}
+      //   if (paramValue.c[0] == 2){item[paramName] = "closed"+ counter.toString();}
+      // }
 
 
 
-      results[itemIndex] = item;
-    })
+      // results[paramIndex] = item;
+    // }
+    // )
   })
-  return results;
+  console.log(results.slice(1,20));
+
+  return results.slice(1,20);
 }
 
 // metaMask listener
@@ -109,15 +117,18 @@ class About extends Component{
                     <List.Item.Meta
                       
                       avatar={<Avatar src="https://i.pinimg.com/236x/59/cb/10/59cb10c177662eaf625b2cb80da3d4dd.jpg" />}
-                      title={<a href={"https://rinkeby.etherscan.io/address/"+item.address}>{"Location of the bounty is "+ web3.toAscii(item.location) + " The Bounty task is: " + web3.toAscii(item.task) }</a>}
-                      description={ " The Bounty responser is "+ item.owner }
+                      // title={<a href={"https://rinkeby.etherscan.io/address/"+item.address}>{"Location of the bounty is "+ web3.toAscii(item.location) + " The Bounty task is: " + web3.toAscii(item.task) }</a>}
+                      description={ " The Bounty responser is "+ item }
                     />
-                    <Button type="primary" onClick={this.getsecondQuestion}>{"the status is " + item.status  }</Button>
+                    <Button type="primary" onClick={this.getsecondQuestion}>{"the status is " }</Button>
 
                     
                   </List.Item>
                 )}
               />
+              {/* {postData.map((postDetail, index) => {
+                return <h1>{postDetail.Content}</h1>
+              })} */}
               </div>
               {/* <Search placeholder="input the bounty" enterButton="Submit" size="large" onSearch={value => this.getsecondQuestion(value)}/> */}
 
@@ -152,7 +163,7 @@ class About extends Component{
 
      await myContractInstance.getAllbounty(function(err,result){
      var res = result;
-     var answerInJson = parseJson(res);
+     var answerInJson = parseJson(postData.result);
      var data = answerInJson;
      this.setState( {data});
   }.bind(this));
