@@ -21,16 +21,16 @@ const Search = Input.Search;
 // modules require
 var Payeth = require('./payEth');
 var About = require('./about');
-var Admin = require('./admin');
-var Ipfs = require('./ipfs');
+// var Admin = require('./admin');
+// var Ipfs = require('./ipfs');
 require('./css/index.css');
 
 // Smart Contract
-const contractAddress = '0xcea2c44f0286735f775aed1231e82b6dec5142ba';
+const contractAddress = '0x9663543c5fa87c0502149a9fa186dc24738ac84c';
 const abi = require('../../Contract/abi');
 const mycontract = web3.eth.contract(abi);
 const myContractInstance = mycontract.at(contractAddress);
-// console.log(web3.eth.accounts[0]);
+console.log(web3.eth.accounts[0]);
 
 
 // metaMask listener
@@ -66,22 +66,22 @@ class App extends Component{
 class GameComponent extends Component{
   render(){
     // checking transactions realtime
-    //  var checkTX = setTimeout(function(){
-    //    web3.eth.getTransactionReceipt(this.state.txHash, function(err, receipt){
-    //     if(!err){
-    //       if(receipt == null){
-    //         this.setState( {txStatus:'new transaction in process'});
-    //       }
-    //       else{
-    //       this.setState( {txStatus:'transaction: ' + this.state.txHash + ' is minded'});
-    //       console.log(JSON.stringify(receipt));
-    //       }
-    //     }
-    //     else{
-    //       this.setState( {txStatus:'no transaction'});
-    //     }
-    //   }.bind(this));
-    // }.bind(this),10000);
+     var checkTX = setTimeout(function(){
+       web3.eth.getTransactionReceipt(this.state.txHash, function(err, receipt){
+        if(!err){
+          if(receipt == null){
+            this.setState( {txStatus:'new transaction in process'});
+          }
+          else{
+          this.setState( {txStatus:'transaction: ' + this.state.txHash + ' is minded'});
+          console.log(JSON.stringify(receipt));
+          }
+        }
+        else{
+          this.setState( {txStatus:'no transaction'});
+        }
+      }.bind(this));
+    }.bind(this),10000);
 
     return(
 
@@ -98,7 +98,7 @@ class GameComponent extends Component{
                 <Menu.Item key="2">Dash Board</Menu.Item>
                 {/* <Menu.Item key="3"><Link to={"/admin"}>Submit Task</Link></Menu.Item>
                 <Menu.Item key="4"><Link to={"/ipfs"}>Validate</Link></Menu.Item> */}
-              </Menu>
+              </Menu> 
           </Header>
             <Content style={{ padding: '0 50px' }}>
               <Breadcrumb style={{ margin: '16px 0' }}>
@@ -112,7 +112,7 @@ class GameComponent extends Component{
               <Button type="primary" onClick={this.getsecondQuestion}>Uport Login</Button>
               <p>click to Login with Uport</p>
               <br />
-              <Search placeholder="input number" enterButton="Submit to take bounty" size="large" onSearch={value => this.onSubmit(value)}/>
+              <Search placeholder="input number" enterButton="Submit" size="large" onSearch={value => this.onSubmit(value)}/>
               {/* <br />
               <br />
               <Search placeholder="input answer2" enterButton="Submit answer for second question" size="large" onSearch={value => this.onSubmit(value)}/>
@@ -188,9 +188,9 @@ class GameComponent extends Component{
       //   console.log(res);
       // });    
       
-      var getData = myContractInstance.contribute.getData(Number(answer));
+      var getData = myContractInstance.transfer.getData(web3.eth.accounts[0],Number(answer));
       await web3.eth.sendTransaction({from: web3.eth.accounts[0], to: contractAddress, data:getData},(err, res) =>{
-        this.setState({txHash:res, txStatus:'new transaction sent'});
+        // this.setState({txHash:res, txStatus:'new transaction sent'});
         console.log(res);
       });
 

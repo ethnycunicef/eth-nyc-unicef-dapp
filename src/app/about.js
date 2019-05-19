@@ -14,7 +14,7 @@ var Payeth = require('./payEth');
 
 
 // SmatContract
-const contractAddress = '0xcea2c44f0286735f775aed1231e82b6dec5142ba';
+const contractAddress = '0x9663543c5fa87c0502149a9fa186dc24738ac84c';
 const abi = require('../../Contract/abi');
 const mycontract = web3.eth.contract(abi);
 const myContractInstance = mycontract.at(contractAddress);
@@ -27,41 +27,6 @@ function parseJson(Resp){
   Resp.forEach((paramValues, paramIndex) => {
     // const item = _.map(paramValues[0],paramValues[3]);
     results.push({zipcode: paramValues[0], connetivity: paramValues[3]});
-
-    // results[paramIndex] = item;
-    // const paramName = parameters[paramIndex];
-    // var values;
-    // const item = _.merge({}, _.get(results, [paramIndex], {}));
-
-    // Resp[paramValues].forEach((paramValue, itemIndex) =>{
-      
-      // if (paramIndex == 0){
-    // item[paramIndex] = paramValues[0];
-      // }
-      // else if(paramIndex == 1){
-      //   item[paramName] = paramValue;
-      // }
-
-      // else if(paramIndex == 2){
-      //   item[paramName] = paramValue.c[0];
-      // }
-
-      // else if(paramIndex == 3){
-      //   item[paramName] = paramValue;
-      // }
-
-      // else if(paramIndex == 4){
-      //   counter += 1;
-      //   if (paramValue.c[0] == 0){item[paramName] = "open"+ counter.toString();}
-      //   if (paramValue.c[0] == 1){item[paramName] = "in progress"+ counter.toString();}
-      //   if (paramValue.c[0] == 2){item[paramName] = "closed"+ counter.toString();}
-      // }
-
-
-
-      // results[paramIndex] = item;
-    // }
-    // )
   })
   console.log(results);
 
@@ -124,21 +89,15 @@ class About extends Component{
                       title={<a href={"http://school-mapping.azurewebsites.net/"}>{"donate token to zipcode  "+ item.zipcode }</a>}
                       description={ " the connectivity of this location is  "+ item.connetivity }
                     />
-                    <InputNumber min={1} max={100} defaultValue={0}  />. . .          
+                    <InputNumber min={1} max={10000000000000000000000} defaultValue={0} onChange={value => this.updateFormField(value)}/>. . .          
                     {/* onChange={this.getsecondQuestion} */}
-                    <Button type="primary" onClick={this.getfirstQuestion}>{ "donate" }</Button> | | 
-                    <Button type="primary" onClick={this.getfirstQuestion}>{ "bid" }</Button>
+                    <Button type="primary" value={item.zipcode} onClick={()=>this.getfirstQuestion(item.zipcode)}>{ "donate" }</Button> | | 
+                    <Button type="primary" value={item.zipcode} onClick={()=>this.onBid(item.zipcode)}>{ "bid" }</Button> | | 
 
                   </List.Item>
                 )}
               />
-              {/* {postData.map((postDetail, index) => {
-                return <h1>{postDetail.Content}</h1>
-              })} */}
               </div>
-              {/* <Search placeholder="input the bounty" enterButton="Submit" size="large" onSearch={value => this.getsecondQuestion(value)}/> */}
-
-
             </Content>
               <p>   Input number to commit your responsibility: </p>
 
@@ -150,6 +109,9 @@ class About extends Component{
     constructor(props){
       super(props);
       this.getfirstQuestion = this.getfirstQuestion.bind(this);
+      this.updateFormField = this.updateFormField.bind(this);
+
+
 
       this.state = {
         score:0,
@@ -159,23 +121,50 @@ class About extends Component{
         scoreboard:[],
         scores:[],
         data:[],
+        inputValue:0
       }
+    }
+
+  async  updateFormField (value) {
+        this.setState({
+          inputValue: value
+        })
+        console.log(this.state.inputValue);
+      
     }
 
   async componentWillMount() {
 
-    //  await myContractInstance.getAllbounty(function(err,result){
-    //  var res = result;
      var answerInJson = parseJson(postData.result);
      var data = answerInJson;
      this.setState( {data});
-  // }.bind(this));
 
   }
 
   async getfirstQuestion(value){
-      console.log("clicked");
+      console.log("clicked" , value);
+      var token = this.state.inputValue;
+      console.log("the token is "+ token);
+
+      var getData = myContractInstance.transfer.getData(web3.eth.accounts[0], token, web3.toHex(value));
+      await web3.eth.sendTransaction({from: web3.eth.accounts[0], to: contractAddress, data:getData},(err, res) =>{
+        console.log(res);
+      });
+
   }
+
+  async onBid(value){
+    var token = this.state.inputValue;
+    console.log("the token is "+ token);
+
+    var getData = myContractInstance.bid.getData(token, web3.toHex(value));
+    await web3.eth.sendTransaction({from: web3.eth.accounts[0], to: contractAddress, data:getData},(err, res) =>{
+      console.log(res);
+    });
+
+}
+
+
 
 
 };
