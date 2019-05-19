@@ -5,7 +5,7 @@ var ReactDOM = require('react-dom');
 import postData from './data.json';
 
 // Design
-import { Button, Layout, Menu, Breadcrumb, List, Avatar} from 'antd';
+import { Button, Layout, Menu, Breadcrumb, List, Avatar, InputNumber} from 'antd';
 const { Header, Content, Footer } = Layout;
 import 'antd/dist/antd.min.css';
 var Link = require('react-router').Link;
@@ -14,19 +14,21 @@ var Payeth = require('./payEth');
 
 
 // SmatContract
-const contractAddress = '0x3e6eba20c93cbc2ba817b2cfa520044eea345e6e';
+const contractAddress = '0xcea2c44f0286735f775aed1231e82b6dec5142ba';
 const abi = require('../../Contract/abi');
 const mycontract = web3.eth.contract(abi);
 const myContractInstance = mycontract.at(contractAddress);
 
 // Dataparsing
 function parseJson(Resp){
-  console.log(Resp);
+  // console.log(Resp);
   const results = [];
-  const value = [];
   // var parameters = ['task','location','incent','owner','status'];//web3.toAscii(res)
   Resp.forEach((paramValues, paramIndex) => {
-    results[paramIndex] = paramValues[0];
+    // const item = _.map(paramValues[0],paramValues[3]);
+    results.push({zipcode: paramValues[0], connetivity: paramValues[3]});
+
+    // results[paramIndex] = item;
     // const paramName = parameters[paramIndex];
     // var values;
     // const item = _.merge({}, _.get(results, [paramIndex], {}));
@@ -61,10 +63,11 @@ function parseJson(Resp){
     // }
     // )
   })
-  console.log(results.slice(1,20));
+  console.log(results);
 
   return results.slice(1,20);
 }
+
 
 // metaMask listener
 window.addEventListener('load', function() {
@@ -95,8 +98,8 @@ class About extends Component{
               >
                 <Menu.Item key="1">Task Status</Menu.Item>
                 <Menu.Item key="2"><Link to={"/"}>Dash Board</Link></Menu.Item>
-                <Menu.Item key="3"><Link to={"/admin"}>Submit Task</Link></Menu.Item>
-                <Menu.Item key="4"><Link to={"/ipfs"}>Validate</Link></Menu.Item>
+                {/* <Menu.Item key="3"><Link to={"/admin"}>Submit Task</Link></Menu.Item>
+                <Menu.Item key="4"><Link to={"/ipfs"}>Validate</Link></Menu.Item> */}
 
               </Menu>
           </Header>
@@ -117,12 +120,15 @@ class About extends Component{
                     <List.Item.Meta
                       
                       avatar={<Avatar src="https://i.pinimg.com/236x/59/cb/10/59cb10c177662eaf625b2cb80da3d4dd.jpg" />}
-                      // title={<a href={"https://rinkeby.etherscan.io/address/"+item.address}>{"Location of the bounty is "+ web3.toAscii(item.location) + " The Bounty task is: " + web3.toAscii(item.task) }</a>}
-                      description={ " The Bounty responser is "+ item }
+                      // title={<a href={"https://rinkeby.etherscan.io/address/"+item.address}>{"Location of the bounty is "+ item.connetivity }</a>}
+                      title={<a href={"http://school-mapping.azurewebsites.net/"}>{"donate token to zipcode  "+ item.zipcode }</a>}
+                      description={ " the connectivity of this location is  "+ item.connetivity }
                     />
-                    <Button type="primary" onClick={this.getsecondQuestion}>{"the status is " }</Button>
+                    <InputNumber min={1} max={100} defaultValue={0}  />. . .          
+                    {/* onChange={this.getsecondQuestion} */}
+                    <Button type="primary" onClick={this.getfirstQuestion}>{ "donate" }</Button> | | 
+                    <Button type="primary" onClick={this.getfirstQuestion}>{ "bid" }</Button>
 
-                    
                   </List.Item>
                 )}
               />
@@ -132,13 +138,10 @@ class About extends Component{
               </div>
               {/* <Search placeholder="input the bounty" enterButton="Submit" size="large" onSearch={value => this.getsecondQuestion(value)}/> */}
 
-              {/* <InputNumber min={1} max={10} defaultValue={3} onChange={this.getsecondQuestion} />, */}
 
             </Content>
               <p>   Input number to commit your responsibility: </p>
-            <Footer style={{ textAlign: 'center' }}>
-              Well Fare for our city
-            </Footer>
+
         </Layout>
 
         );
@@ -155,18 +158,18 @@ class About extends Component{
         key2:'',
         scoreboard:[],
         scores:[],
-        data:[]
+        data:[],
       }
     }
 
   async componentWillMount() {
 
-     await myContractInstance.getAllbounty(function(err,result){
-     var res = result;
+    //  await myContractInstance.getAllbounty(function(err,result){
+    //  var res = result;
      var answerInJson = parseJson(postData.result);
      var data = answerInJson;
      this.setState( {data});
-  }.bind(this));
+  // }.bind(this));
 
   }
 

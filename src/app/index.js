@@ -5,7 +5,7 @@ var createReactClass = require('create-react-class');
 import { Router, Route, browserHistory, Link} from 'react-router';
 import { Connect, SimpleSigner } from 'uport-connect'
 
-export const uport = new Connect('Wel-Fair', {
+export const uport = new Connect('unicef', {
   clientId: '2ox3yhAnwM7eahsdNwvovanM1xzRggp9gQi',
   network: 'rinkeby',
   signer: SimpleSigner('c33b126055d33a58a3a6e57790362417e585b8a7865c0ec9a93aa7f936e65442')
@@ -26,10 +26,11 @@ var Ipfs = require('./ipfs');
 require('./css/index.css');
 
 // Smart Contract
-const contractAddress = '0x3e6eba20c93cbc2ba817b2cfa520044eea345e6e';
+const contractAddress = '0xcea2c44f0286735f775aed1231e82b6dec5142ba';
 const abi = require('../../Contract/abi');
 const mycontract = web3.eth.contract(abi);
 const myContractInstance = mycontract.at(contractAddress);
+// console.log(web3.eth.accounts[0]);
 
 
 // metaMask listener
@@ -53,8 +54,8 @@ class App extends Component{
       <Router history={browserHistory}>
         <Route path={"/"} component={GameComponent}></Route>
         <Route path={"/about"} component={About}></Route>
-        <Route path={"/admin"} component={Admin}></Route>
-        <Route path={"/ipfs"} component={Ipfs}></Route>
+        {/* <Route path={"/admin"} component={Admin}></Route>
+        <Route path={"/ipfs"} component={Ipfs}></Route> */}
       </Router>
     );
   }
@@ -65,22 +66,22 @@ class App extends Component{
 class GameComponent extends Component{
   render(){
     // checking transactions realtime
-     var checkTX = setTimeout(function(){
-       web3.eth.getTransactionReceipt(this.state.txHash, function(err, receipt){
-        if(!err){
-          if(receipt == null){
-            this.setState( {txStatus:'new transaction in process'});
-          }
-          else{
-          this.setState( {txStatus:'transaction: ' + this.state.txHash + ' is minded'});
-          console.log(JSON.stringify(receipt));
-          }
-        }
-        else{
-          this.setState( {txStatus:'no transaction'});
-        }
-      }.bind(this));
-    }.bind(this),10000);
+    //  var checkTX = setTimeout(function(){
+    //    web3.eth.getTransactionReceipt(this.state.txHash, function(err, receipt){
+    //     if(!err){
+    //       if(receipt == null){
+    //         this.setState( {txStatus:'new transaction in process'});
+    //       }
+    //       else{
+    //       this.setState( {txStatus:'transaction: ' + this.state.txHash + ' is minded'});
+    //       console.log(JSON.stringify(receipt));
+    //       }
+    //     }
+    //     else{
+    //       this.setState( {txStatus:'no transaction'});
+    //     }
+    //   }.bind(this));
+    // }.bind(this),10000);
 
     return(
 
@@ -95,8 +96,8 @@ class GameComponent extends Component{
               >
                 <Menu.Item key="1"><Link to={"/about"}>Task Status</Link></Menu.Item>
                 <Menu.Item key="2">Dash Board</Menu.Item>
-                <Menu.Item key="3"><Link to={"/admin"}>Submit Task</Link></Menu.Item>
-                <Menu.Item key="4"><Link to={"/ipfs"}>Validate</Link></Menu.Item>
+                {/* <Menu.Item key="3"><Link to={"/admin"}>Submit Task</Link></Menu.Item>
+                <Menu.Item key="4"><Link to={"/ipfs"}>Validate</Link></Menu.Item> */}
               </Menu>
           </Header>
             <Content style={{ padding: '0 50px' }}>
@@ -121,9 +122,6 @@ class GameComponent extends Component{
               </div> */}
             </Content>
               <p>   rules: </p>
-            <Footer style={{ textAlign: 'center' }}>
-               Well Fare for our city
-            </Footer>
         </Layout>
 
     );
@@ -190,11 +188,14 @@ class GameComponent extends Component{
       //   console.log(res);
       // });    
       
-      var getData = myContractInstance.takeBounty.getData(Number(answer));
+      var getData = myContractInstance.contribute.getData(Number(answer));
       await web3.eth.sendTransaction({from: web3.eth.accounts[0], to: contractAddress, data:getData},(err, res) =>{
         this.setState({txHash:res, txStatus:'new transaction sent'});
         console.log(res);
       });
+
+              // var getData = myContractInstance.transfer.getData("0x627306090abab3a6e1400e9345bc60c78a8bef57", Number(answer));       await web3.eth.sendTransaction({from: web3.eth.accounts[0], to: contractAddress, data:getData},(err, res) =>{         this.setState({txHash:res, txStatus:'new transaction sent'});         console.log(res);       });       
+
 
 
     }
