@@ -1,18 +1,87 @@
 module.exports =
 [
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "mintingFinished",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_location",
-				"type": "bytes32"
+				"name": "_spender",
+				"type": "address"
 			},
 			{
-				"name": "_number",
+				"name": "_value",
 				"type": "uint256"
 			}
 		],
-		"name": "claimBounty",
+		"name": "approve",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
 		"outputs": [
 			{
 				"name": "",
@@ -28,30 +97,32 @@ module.exports =
 		"inputs": [
 			{
 				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "BountyInfo",
+		"name": "bidIndexesToSender",
 		"outputs": [
 			{
-				"name": "Task",
-				"type": "bytes32"
-			},
-			{
-				"name": "Location",
-				"type": "bytes32"
-			},
-			{
-				"name": "Incentive",
+				"name": "",
 				"type": "uint256"
-			},
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
 			{
-				"name": "status",
+				"name": "",
 				"type": "uint8"
-			},
-			{
-				"name": "Owner",
-				"type": "address"
 			}
 		],
 		"payable": false,
@@ -62,11 +133,116 @@ module.exports =
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_Bnumber",
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_amount",
 				"type": "uint256"
 			}
 		],
-		"name": "takeBounty",
+		"name": "mint",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "_value",
+				"type": "uint256"
+			},
+			{
+				"name": "_data",
+				"type": "bytes32"
+			}
+		],
+		"name": "transfer",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_subtractedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "decreaseApproval",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "finishMinting",
 		"outputs": [
 			{
 				"name": "",
@@ -93,17 +269,12 @@ module.exports =
 	},
 	{
 		"constant": true,
-		"inputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "BountyList",
+		"inputs": [],
+		"name": "symbol",
 		"outputs": [
 			{
 				"name": "",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"payable": false,
@@ -112,28 +283,29 @@ module.exports =
 	},
 	{
 		"constant": true,
-		"inputs": [],
-		"name": "getAllbounty",
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "transactions",
 		"outputs": [
 			{
-				"name": "",
-				"type": "bytes32[]"
+				"name": "to_",
+				"type": "address"
 			},
 			{
-				"name": "",
-				"type": "bytes32[]"
+				"name": "amount_",
+				"type": "uint256"
 			},
 			{
-				"name": "",
-				"type": "uint256[]"
+				"name": "data_",
+				"type": "bytes32"
 			},
 			{
-				"name": "",
-				"type": "address[]"
-			},
-			{
-				"name": "",
-				"type": "uint8[]"
+				"name": "failed_",
+				"type": "bool"
 			}
 		],
 		"payable": false,
@@ -144,29 +316,117 @@ module.exports =
 		"constant": false,
 		"inputs": [
 			{
-				"name": "_task",
-				"type": "bytes32"
+				"name": "_to",
+				"type": "address"
 			},
 			{
-				"name": "_Location",
-				"type": "bytes32"
-			},
-			{
-				"name": "_Incentive",
+				"name": "_value",
 				"type": "uint256"
 			}
 		],
-		"name": "SubmitBounty",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
+		"name": "transfer",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "address"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "transactionIndexesToSender",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"constant": false,
 		"inputs": [
 			{
-				"name": "newOwner",
+				"name": "_spender",
+				"type": "address"
+			},
+			{
+				"name": "_addedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "increaseApproval",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"name": "_spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_cost",
+				"type": "uint256"
+			},
+			{
+				"name": "_district",
+				"type": "bytes32"
+			}
+		],
+		"name": "bid",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_newOwner",
 				"type": "address"
 			}
 		],
@@ -177,24 +437,75 @@ module.exports =
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "admin",
-		"outputs": [
+		"inputs": [
 			{
-				"name": "",
-				"type": "address"
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"name": "_symbol",
+				"type": "string"
+			},
+			{
+				"name": "_decimals",
+				"type": "uint8"
 			}
 		],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "burner",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Burn",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Mint",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [],
+		"name": "MintFinished",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "previousOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipRenounced",
+		"type": "event"
 	},
 	{
 		"anonymous": false,
@@ -211,6 +522,50 @@ module.exports =
 			}
 		],
 		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
 		"type": "event"
 	}
 ]
